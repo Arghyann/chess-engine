@@ -1,7 +1,7 @@
 import chess
 import random
 import numpy as np
-from encoder import board_to_tensor
+from boardToTensor import board_to_tensor
 
 class ChessEnv:
     def __init__(self):
