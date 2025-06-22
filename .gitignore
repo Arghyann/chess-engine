@@ -2,3 +2,4 @@
 /lichess db/
 *.csv
 *.pkl
+*.pt

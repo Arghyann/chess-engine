@@ -20,7 +20,7 @@ criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=1e-4)
 
 # Data preparation
-batch_size = 128  # Increased from 64 for better GPU utilization
+batch_size = 512  # Increased from 64 for better GPU utilization
 print("Loading and preprocessing data...")
 X_train, X_test, y_train, y_test = load_dataset("training_data.csv")
 
@@ -40,22 +40,23 @@ except:
     test_dataset.save_cache("test_cache.pt")
     print("Datasets cached for future use!")
 
-
 # Data loader with optimizations
 train_loader = DataLoader(
     train_dataset, 
     batch_size=batch_size, 
-    shuffle=True, 
+    shuffle=True,
+    num_workers=4,  # Use multiple CPU cores
     pin_memory=True,  # Faster GPU transfer
-    
+    persistent_workers=True  # Keep workers alive between epochs
 )
 
 test_loader = DataLoader(
     test_dataset, 
     batch_size=batch_size, 
     shuffle=False,
+    num_workers=4,
     pin_memory=True,
-    
+    persistent_workers=True
 )
 
 num_epochs = 10
@@ -105,7 +106,7 @@ for epoch in range(num_epochs):
     print(f"    Batches/sec: {len(train_loader)/epoch_time:.1f}")
     print("-" * 50)
 
-
+    
 print("Running quick evaluation...")
 model.eval()
 correct = 0

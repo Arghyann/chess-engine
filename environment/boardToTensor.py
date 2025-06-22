@@ -1,5 +1,6 @@
 import chess 
 import numpy as np
+import torch
 
 
 
@@ -27,6 +28,6 @@ def board_to_tensor(fen):
 
     # --- 1 whose turn plane ---
     tensor[18, :, :] = 1 if board.turn == chess.WHITE else 0
-    return tensor
+    return torch.tensor(tensor, dtype=torch.float32)
 
 
